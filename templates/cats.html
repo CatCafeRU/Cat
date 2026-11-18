@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Наши коты — Котокафе{% endblock %}
+{% block content %}
+<h1>Наши коты</h1>
+<div class="cat-grid">
+  {% for c in cats %}
+    <article class="cat-card">
+      {% if c.photo %}<img src="{{ url_for('media', filename=c.photo) }}" alt="{{ c.name }}">{% endif %}
+      <h3>{{ c.name }}</h3>
+      <p>{{ c.bio }}</p>
+    </article>
+  {% else %}
+    <p>Пока никого не завели.</p>
+  {% endfor %}
+</div>
+{% endblock %}

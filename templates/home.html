@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}Котокафе — главная{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-logo">
+    <span class="hero-paw">🐾</span>
+    <h1>Котокафе</h1>
+    <p>Тёплое место, где кофе встречается с мурчанием.</p>
+  </div>
+</section>
+
+{% if slides %}
+<section class="carousel" id="carousel">
+  <div class="carousel-track">
+    {% for s in slides %}
+      <div class="carousel-slide {% if loop.first %}active{% endif %}">
+        {% if s.image %}
+          <img src="{{ url_for('media', filename=s.image) }}" alt="{{ s.caption }}">
+        {% endif %}
+        <div class="carousel-caption">{{ s.caption }}</div>
+      </div>
+    {% endfor %}
+  </div>
+  <button class="carousel-btn prev" data-dir="-1" aria-label="Назад">‹</button>
+  <button class="carousel-btn next" data-dir="1" aria-label="Вперёд">›</button>
+  <div class="carousel-dots">
+    {% for s in slides %}
+      <button class="dot {% if loop.first %}active{% endif %}" data-index="{{ loop.index0 }}"></button>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if banners %}
+<section class="promo-banners">
+  {% for p in banners %}
+    <div class="promo-banner">
+      <h3>{{ p.title }}</h3>
+      <p>{{ p.description }}</p>
+    </div>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if cats %}
+<section>
+  <h2>Наши коты</h2>
+  <div class="cat-preview">
+    {% for c in cats %}
+      <div class="cat-card">
+        {% if c.photo %}<img src="{{ url_for('media', filename=c.photo) }}" alt="{{ c.name }}">{% endif %}
+        <h3>{{ c.name }}</h3>
+        <p>{{ c.bio }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if about %}
+<section class="about-snippet">
+  <h2>О нас</h2>
+  <p>{{ about.body }}</p>
+</section>
+{% endif %}
+
+{% if contact %}
+<section class="contact-block">
+  <h2>Контакты</h2>
+  <p><strong>Адрес:</strong> {{ contact.address }}</p>
+  <p><strong>Часы:</strong> {{ contact.hours }}</p>
+  <p><strong>Телефон:</strong> {{ contact.phone }}</p>
+  <p><strong>Email:</strong> {{ contact.email }}</p>
+  {% if contact.map_url %}
+    <iframe class="map" src="{{ contact.map_url }}" loading="lazy"
+            title="Карта" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  {% endif %}
+</section>
+{% endif %}
+{% endblock %}

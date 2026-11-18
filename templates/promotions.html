@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Акции — Котокафе{% endblock %}
+{% block content %}
+<h1>Акции</h1>
+<div class="promo-grid">
+  {% for p in promotions %}
+    <article class="promo-card">
+      <h3>{{ p.title }}</h3>
+      <p>{{ p.description }}</p>
+      {% if p.starts_at or p.ends_at %}
+        <p class="promo-dates">
+          {% if p.starts_at %}с {{ p.starts_at.strftime('%d.%m.%Y') }}{% endif %}
+          {% if p.ends_at %} по {{ p.ends_at.strftime('%d.%m.%Y') }}{% endif %}
+        </p>
+      {% endif %}
+      {% set coupons = active_coupons.get(p.id) %}
+      {% if coupons %}
+        <ul class="coupon-list">
+          {% for c in coupons %}
+            <li>
+              <strong>{{ c.code }}</strong>
+              {% if c.discount %}— {{ c.discount }}{% endif %}
+              {% if c.min_order %} (от {{ c.min_order | price }} ₽){% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </article>
+  {% else %}
+    <p>Сейчас акций нет.</p>
+  {% endfor %}
+</div>
+{% endblock %}

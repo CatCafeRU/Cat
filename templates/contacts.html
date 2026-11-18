@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Контакты — Котокафе{% endblock %}
+{% block content %}
+<h1>Контакты</h1>
+{% if contact %}
+  <ul class="contacts-list">
+    <li><strong>Адрес:</strong> {{ contact.address }}</li>
+    <li><strong>Часы:</strong> {{ contact.hours }}</li>
+    <li><strong>Телефон:</strong> {{ contact.phone }}</li>
+    <li><strong>Email:</strong> {{ contact.email }}</li>
+  </ul>
+  {% if contact.map_url %}
+    <iframe class="map" src="{{ contact.map_url }}" loading="lazy"
+            title="Карта" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  {% endif %}
+{% else %}
+  <p>Контакты пока не заполнены.</p>
+{% endif %}
+{% if social_links %}
+  <h2>Соцсети</h2>
+  <ul class="contacts-list">
+    {% for s in social_links %}
+      <li><a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}
